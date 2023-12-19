@@ -1,41 +1,33 @@
-let options = ['paper', 'rock', 'scissors'];
+let scoreDiv = document.querySelector('#score')
+let buttons = document.querySelector('#buttons')
+buttons.querySelectorAll('button').forEach(button =>
+    button.addEventListener('click', (e) =>
+    (playRound(e.target.textContent))))
 
-function playRound(playerSelection, computerSelection) {
+let options = ['rock', 'paper', 'scissors'];
+let score = [0,0,0]
+
+function playRound(playerSelection) {
     playerSelection = playerSelection.toLowerCase();
-    computerSelection = computerSelection.toLowerCase();    
+    computerSelection = getComputerChoice().toLowerCase();
+    
+    let result = -1
 
+    
     if (playerSelection == computerSelection) {
-        return(0) //draw
-    }
-
-    if ((options.indexOf(playerSelection)+1)%2 == options.indexOf(computerSelection)) {
-        return(1) //computer won
+        result = 0
+    } else if ((options.indexOf(computerSelection)+1)%3 == options.indexOf(playerSelection)) {
+        result = 1 //player won
     } else {
-        return(2) //player won
+        result = 2 //computer won
     }
+    score[result] += 1
+    scoreDiv.textContent = score
+
+    console.log(playerSelection, computerSelection, result)
+
 }
 
 function getComputerChoice() {
     return(options[Math.floor(Math.random() * options.length)])
 }
-   
-function game() {
-    let score = [0,0,0];
-    players = ['Nobody', 'Computer', 'Player'];
-    for (let i = 0; i < 5; i++) {
-        computerSelection = getComputerChoice();
-        playerSelection = prompt("What is your choice?")
-
-        result = playRound(playerSelection, computerSelection);
-        score[result] += 1;
-        console.log(players[result] + " won!");
-    }
-
-    console.log("Game over; the player won " +
-    score[2] + " times, the computer won " +
-    score[1] + " times, with " +
-    score[0] + " draw(s)."
-    )
-}
-
-game()
